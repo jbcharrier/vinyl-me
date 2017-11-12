@@ -1,0 +1,30 @@
+<app-menu></app-menu>
+<div class="container">
+    <div class="search-input">
+        <input type="text" placeholder="Search artist here" [(ngModel)]="searchText">
+    </div>
+    <h3>Last albums entered...</h3>
+    <ul>
+        <li *ngFor="let album of albums | async | reverse | slice:0:5 | filter : searchText; let i=index">
+            <p  (click)="onSelect(album)">{{album.title}} - {{album.artist}} - {{album.date}} <span *ngIf="album.savingDate">(added {{album.savingDate | date}})</span></p>
+            <i class="fa fa-close" aria-hidden="true" (click)="deleteAlbum(album)"></i>
+        </li>
+    </ul>
+    <section *ngIf="selectedAlbum">
+        <div class="card card-cascade wider reverse my-4">
+            <div class="view overlay hm-white-slight waves-light" mdbRippleRadius>
+                <img src="{{selectedAlbum.img}}" class="img-fluid cover-img">
+                <a>
+                    <div class="mask"></div>
+                </a>
+            </div>
+            <div class="card-body text-center">
+                <h4 class="card-title"><strong>{{selectedAlbum.title}}</strong></h4>
+                <h5 class="indigo-text"><strong>{{selectedAlbum.artist}}</strong></h5>
+                <p class="card-text">{{selectedAlbum.date}}</p>
+                <p>(added {{selectedAlbum.savingDate | date}})</p>
+                <button type="button" class="btn btn-outline-default" mdbRippleRadius>Modify</button>
+            </div>
+        </div>
+    </section>
+</div>
